@@ -1,0 +1,120 @@
+import { motion } from "framer-motion";
+import {
+  FaCode,
+  FaPaintBrush,
+  FaMobileAlt,
+  FaServer,
+  FaSearch,
+  FaPencilAlt,
+} from "react-icons/fa";
+
+const ServiceCard = ({ title, description, icon: Icon, index }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1 }}
+    viewport={{ once: true }}
+    whileHover={{ y: -5 }}
+    className="bg-[#0A0A0A] dark:bg-white rounded-2xl p-6 shadow-lg group cursor-pointer"
+  >
+    <div className="w-12 h-12 bg-white dark:bg-[#0A0A0A] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+      <Icon className="text-2xl text-[#0A0A0A] dark:text-white" />
+    </div>
+
+    <h3 className="text-xl font-semibold text-white dark:text-[#0A0A0A] mb-3">
+      {title}
+    </h3>
+
+    <p className="text-gray-300 dark:text-gray-700 leading-relaxed">
+      {description}
+    </p>
+
+    <motion.div
+      className="mt-4 inline-flex items-center text-white dark:text-[#0A0A0A] font-medium"
+      whileHover={{ x: 5 }}
+    >
+      View More
+      <svg
+        className="w-4 h-4 ml-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    </motion.div>
+  </motion.div>
+);
+
+const Services = () => {
+  const services = [
+    {
+      title: "Web Development",
+      description:
+        "Create modern and responsive websites using the latest technologies and best practices for optimal user experience.",
+      icon: FaCode,
+    },
+    {
+      title: "UI/UX Design",
+      description:
+        "Design intuitive and beautiful user interfaces with a focus on user experience and modern design trends.",
+      icon: FaPaintBrush,
+    },
+    {
+      title: "Mobile Development",
+      description:
+        "Build native and cross-platform mobile applications that work seamlessly across all devices.",
+      icon: FaMobileAlt,
+    },
+    {
+      title: "Backend Development",
+      description:
+        "Develop robust and scalable server-side solutions with secure API endpoints and efficient databases.",
+      icon: FaServer,
+    },
+    {
+      title: "SEO Optimization",
+      description:
+        "Optimize your website for search engines to increase visibility and drive organic traffic.",
+      icon: FaSearch,
+    },
+    {
+      title: "Brand Identity",
+      description:
+        "Create compelling brand identities including logos, color schemes, and design systems.",
+      icon: FaPencilAlt,
+    },
+  ];
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          Services
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400">
+          What I can do for you
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((service, index) => (
+          <ServiceCard
+            key={index}
+            title={service.title}
+            description={service.description}
+            icon={service.icon}
+            index={index}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Services;
