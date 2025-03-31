@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaCode,
   FaPaintBrush,
@@ -6,9 +6,58 @@ import {
   FaServer,
   FaSearch,
   FaPencilAlt,
+  FaTimes,
 } from "react-icons/fa";
+import { useState } from "react";
 
-const ServiceCard = ({ title, description, icon: Icon, index }) => (
+const ServiceModal = ({ service, onClose }) => (
+  <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+    onClick={onClose}
+  >
+    <motion.div
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.9, opacity: 0 }}
+      className="bg-[#0A0A0A] dark:bg-white rounded-2xl p-8 max-w-2xl w-full relative"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-gray-400 hover:text-white dark:hover:text-[#0A0A0A] transition-colors"
+      >
+        <FaTimes className="w-6 h-6" />
+      </button>
+
+      <div className="w-16 h-16 bg-white dark:bg-[#0A0A0A] rounded-lg flex items-center justify-center mb-6">
+        <service.icon className="text-3xl text-[#0A0A0A] dark:text-white" />
+      </div>
+
+      <h3 className="text-2xl font-bold text-white dark:text-[#0A0A0A] mb-4">
+        {service.title}
+      </h3>
+
+      <div className="space-y-4 text-gray-300 dark:text-gray-700">
+        <p className="text-lg leading-relaxed">{service.description}</p>
+        <div className="pt-4 border-t border-gray-800 dark:border-gray-200">
+          <h4 className="text-lg font-semibold text-white dark:text-[#0A0A0A] mb-2">
+            Key Features
+          </h4>
+          <ul className="list-disc list-inside space-y-2">
+            {service.features.map((feature, index) => (
+              <li key={index}>{feature}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </motion.div>
+  </motion.div>
+);
+
+const ServiceCard = ({ title, description, icon: Icon, index, onClick }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -16,6 +65,7 @@ const ServiceCard = ({ title, description, icon: Icon, index }) => (
     viewport={{ once: true }}
     whileHover={{ y: -5 }}
     className="bg-[#0A0A0A] dark:bg-white rounded-2xl p-6 shadow-lg group cursor-pointer"
+    onClick={onClick}
   >
     <div className="w-12 h-12 bg-white dark:bg-[#0A0A0A] rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
       <Icon className="text-2xl text-[#0A0A0A] dark:text-white" />
@@ -52,42 +102,86 @@ const ServiceCard = ({ title, description, icon: Icon, index }) => (
 );
 
 const Services = () => {
+  const [selectedService, setSelectedService] = useState(null);
+
   const services = [
     {
       title: "Web Development",
       description:
         "Create modern and responsive websites using the latest technologies and best practices for optimal user experience.",
       icon: FaCode,
+      features: [
+        "Responsive design for all devices",
+        "Modern UI/UX implementation",
+        "Performance optimization",
+        "Cross-browser compatibility",
+        "SEO-friendly structure",
+      ],
     },
     {
       title: "UI/UX Design",
       description:
         "Design intuitive and beautiful user interfaces with a focus on user experience and modern design trends.",
       icon: FaPaintBrush,
+      features: [
+        "User-centered design approach",
+        "Wireframing and prototyping",
+        "Interactive design systems",
+        "Accessibility compliance",
+        "Design documentation",
+      ],
     },
     {
       title: "Mobile Development",
       description:
         "Build native and cross-platform mobile applications that work seamlessly across all devices.",
       icon: FaMobileAlt,
+      features: [
+        "Native app development",
+        "Cross-platform solutions",
+        "App store optimization",
+        "Push notifications",
+        "Offline functionality",
+      ],
     },
     {
       title: "Backend Development",
       description:
         "Develop robust and scalable server-side solutions with secure API endpoints and efficient databases.",
       icon: FaServer,
+      features: [
+        "RESTful API development",
+        "Database optimization",
+        "Security implementation",
+        "Cloud integration",
+        "Scalable architecture",
+      ],
     },
     {
       title: "SEO Optimization",
       description:
         "Optimize your website for search engines to increase visibility and drive organic traffic.",
       icon: FaSearch,
+      features: [
+        "Keyword research and analysis",
+        "On-page optimization",
+        "Technical SEO",
+        "Content strategy",
+        "Performance monitoring",
+      ],
     },
     {
       title: "Brand Identity",
       description:
         "Create compelling brand identities including logos, color schemes, and design systems.",
       icon: FaPencilAlt,
+      features: [
+        "Logo design",
+        "Brand guidelines",
+        "Color palette creation",
+        "Typography selection",
+        "Brand assets development",
+      ],
     },
   ];
 
@@ -110,9 +204,19 @@ const Services = () => {
             description={service.description}
             icon={service.icon}
             index={index}
+            onClick={() => setSelectedService(service)}
           />
         ))}
       </div>
+
+      <AnimatePresence>
+        {selectedService && (
+          <ServiceModal
+            service={selectedService}
+            onClose={() => setSelectedService(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 };

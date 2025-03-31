@@ -63,7 +63,7 @@ const Layout = () => {
                 className={`px-7 py-2.5 rounded-full text-sm font-medium transition-colors select-none outline-none focus:outline-none hover:outline-none active:outline-none focus-visible:outline-none focus:ring-0 hover:ring-0 active:ring-0 focus-visible:ring-0 focus:ring-offset-0 focus-visible:ring-offset-0 ${
                   activeSection === item.id
                     ? "bg-white text-[#0A0A0A] dark:bg-black dark:text-white"
-                    : "text-[#666666] hover:text-white dark:text-gray-500 dark:hover:text-[#0A0A0A] bg-transparent"
+                    : "text-[#818181] hover:text-white dark:text-gray-500 dark:hover:text-[#0A0A0A] bg-transparent"
                 }`}
                 style={{
                   WebkitTapHighlightColor: "transparent",
